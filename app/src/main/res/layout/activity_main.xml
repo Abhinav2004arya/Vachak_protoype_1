@@ -52,7 +52,7 @@
 
 
     <TextView
-        android:id="@+id/center_text"
+        android:id="@+id/responseText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -81,12 +81,13 @@
             android:padding="8dp"
             android:textColor="#FFFFFF" />
 
-        <ImageView
-            android:id="@+id/voice_icon"
+        <Button
+            android:id="@+id/voiceButton"
+            android:text="b"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
-            android:src="@drawable/ic_mic"
+
             app:tint="#FFFFFF" />
 
         <ImageView
