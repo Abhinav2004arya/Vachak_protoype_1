@@ -9,6 +9,7 @@ import android.speech.tts.TextToSpeech;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     private static final int SPEECH_REQUEST_CODE = 100;
     private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
-    private static final String API_KEY = "6fb002068ad87c6f5cb975c8c49a0ecd"; // Replace with your OpenWeatherMap API key
+    private static final String API_KEY = "6fb002068ad87c6f5cb975c8c49a0ecd";
 
     private TextToSpeech textToSpeech;
     private TextView responseText;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button voiceButton = (Button)findViewById(R.id.voiceButton);
+        ImageButton voiceButton = findViewById(R.id.voiceButton);
         responseText = findViewById(R.id.responseText);
 
         // Initialize Text-to-Speech

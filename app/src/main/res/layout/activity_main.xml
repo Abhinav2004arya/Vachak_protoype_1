@@ -81,13 +81,14 @@
             android:padding="8dp"
             android:textColor="#FFFFFF" />
 
-        <Button
+        <ImageButton
             android:id="@+id/voiceButton"
-            android:text="b"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
-
+            android:src="@drawable/ic_mic"
+            android:background="#1A1919"
+            android:clickable="true"
             app:tint="#FFFFFF" />
 
         <ImageView
