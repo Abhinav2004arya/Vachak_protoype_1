@@ -20,10 +20,22 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+
 public class MainActivity extends AppCompatActivity {
+
+
     private static final int SPEECH_REQUEST_CODE = 100;
     private static final int CALL_PERMISSION_REQUEST_CODE = 101;
     private static final int CONTACTS_PERMISSION_REQUEST_CODE = 102;
+    private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
+        private static final String API_KEY = "6fb002068ad87c6f5cb975c8c49a0ecd";
 
     private TextToSpeech textToSpeech;
     private TextView responseText;
@@ -83,19 +95,67 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void processCommand(String query) {
-        query = query.toLowerCase();
+//        query = query.toLowerCase();
 
-        if (query.contains("call")) {
+        if (query.toLowerCase().contains("call")) {
             String contactName = extractContactName(query);
             if (contactName != null) {
                 makePhoneCall(contactName);
             } else {
                 respond("I couldn't identify the contact name.");
             }
-        } else {
-            respond("I didn't understand. Try saying 'Call John'.");
+        }else if (query.toLowerCase().contains("weather")) {
+            String[] words = query.split(" ");
+            String city = "delhi"; // Default city
+
+            // Look for a city name in the query
+            for (String word : words) {
+                if (Character.isUpperCase(word.charAt(0)) && word.length() > 2) {
+                    city = word;
+                    break;
+                }
+            }
+
+            fetchWeather(city);
         }
+        else {
+            respond("I didn't understand.");
+        }
+
+
+
     }
+
+
+    private void fetchWeather(String city) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        WeatherAPI api = retrofit.create(WeatherAPI.class);
+        Call<WeatherResponse> call = api.getWeather(city, API_KEY, "metric");
+
+        call.enqueue(new Callback<WeatherResponse>() {
+            @Override
+            public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    String weatherInfo = "Weather in " + city + ": " +
+                            response.body().weather[0].description + ", " +
+                            response.body().main.temp + "°C";
+                    respond(weatherInfo);
+                } else {
+                    respond("Failed to fetch weather data.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WeatherResponse> call, Throwable t) {
+                respond("Error: " + t.getMessage());
+            }
+        });
+    }
+
 
     private String extractContactName(String query) {
         String[] words = query.split(" ");
