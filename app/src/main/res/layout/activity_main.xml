@@ -97,7 +97,8 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_camera"
-            app:tint="#FFFFFF" />
+            android:background="#1A1919"
+            app:tint="#FAFAFA" />
 
 
         <ImageView
@@ -106,6 +107,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_menu"
+            android:background="#1A1919"
             app:tint="#FFFFFF" />
     </LinearLayout>
 </RelativeLayout>
